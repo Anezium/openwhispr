@@ -191,6 +191,25 @@
           "descriptionKey": "models.descriptions.transcription.mistral_voxtral_mini_latest"
         }
       ]
+    },
+    {
+      "id": "elevenlabs",
+      "name": "ElevenLabs",
+      "baseUrl": "https://api.elevenlabs.io/v1",
+      "models": [
+        {
+          "id": "scribe_v2",
+          "name": "Scribe v2",
+          "description": "Accurate multilingual transcription",
+          "descriptionKey": "models.descriptions.transcription.elevenlabs_scribe_v2"
+        },
+        {
+          "id": "scribe_v1",
+          "name": "Scribe v1",
+          "description": "Legacy transcription model",
+          "descriptionKey": "models.descriptions.transcription.elevenlabs_scribe_v1"
+        }
+      ]
     }
   ],
   "cloudProviders": [

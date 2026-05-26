@@ -184,6 +184,10 @@ contextBridge.exposeInMainWorld("electronAPI", {
   // Environment variables
   getOpenAIKey: () => ipcRenderer.invoke("get-openai-key"),
   saveOpenAIKey: (key) => ipcRenderer.invoke("save-openai-key", key),
+  getElevenLabsKey: () => ipcRenderer.invoke("get-elevenlabs-key"),
+  saveElevenLabsKey: (key) => ipcRenderer.invoke("save-elevenlabs-key", key),
+  proxyElevenLabsTranscription: (data) =>
+    ipcRenderer.invoke("proxy-elevenlabs-transcription", data),
 
   // Clipboard functions
   checkAccessibilityPermission: (silent) =>

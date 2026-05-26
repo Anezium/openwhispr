@@ -975,6 +975,17 @@ declare global {
         contextBias?: string[];
       }) => Promise<{ text: string }>;
 
+      // ElevenLabs speech-to-text
+      getElevenLabsKey?: () => Promise<string | null>;
+      saveElevenLabsKey?: (key: string) => Promise<void>;
+      proxyElevenLabsTranscription?: (data: {
+        audioBuffer: ArrayBuffer;
+        apiKey?: string;
+        model?: string;
+        language?: string;
+        mimeType?: string;
+      }) => Promise<{ text: string }>;
+
       // Custom endpoint API keys
       getCustomTranscriptionKey?: () => Promise<string | null>;
       saveCustomTranscriptionKey?: (key: string) => Promise<void>;
@@ -1222,6 +1233,7 @@ declare global {
         apiKey: string;
         baseUrl: string;
         model: string;
+        provider?: string;
       }) => Promise<{
         success: boolean;
         text?: string;

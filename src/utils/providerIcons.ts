@@ -5,6 +5,7 @@ import llamaIcon from "@/assets/icons/providers/llama.svg";
 import mistralIcon from "@/assets/icons/providers/mistral.svg";
 import qwenIcon from "@/assets/icons/providers/qwen.svg";
 import groqIcon from "@/assets/icons/providers/groq.svg";
+import elevenLabsIcon from "@/assets/icons/providers/elevenlabs.svg";
 import nvidiaIcon from "@/assets/icons/providers/nvidia.svg";
 import openaiOssIcon from "@/assets/icons/providers/openai-oss.svg";
 import gemmaIcon from "@/assets/icons/providers/gemma.svg";
@@ -21,6 +22,7 @@ export const PROVIDER_ICONS: Record<string, string> = {
   mistral: mistralIcon,
   qwen: qwenIcon,
   groq: groqIcon,
+  elevenlabs: elevenLabsIcon,
   nvidia: nvidiaIcon,
   "openai-oss": openaiOssIcon,
   gemma: gemmaIcon,
