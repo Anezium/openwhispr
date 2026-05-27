@@ -983,6 +983,7 @@ declare global {
         apiKey?: string;
         model?: string;
         language?: string;
+        keyterms?: string[];
         mimeType?: string;
       }) => Promise<{ text: string }>;
 
@@ -1234,6 +1235,7 @@ declare global {
         baseUrl: string;
         model: string;
         provider?: string;
+        keyterms?: string[];
       }) => Promise<{
         success: boolean;
         text?: string;

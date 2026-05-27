@@ -1,5 +1,9 @@
 const ELEVENLABS_STT_URL = "https://api.elevenlabs.io/v1/speech-to-text";
 const DEFAULT_STT_MODEL = "scribe_v2";
+const KEYTERMS_LIMIT = 100;
+const KEYTERM_MAX_CHARS = 50;
+const KEYTERM_MAX_WORDS = 5;
+const INVALID_KEYTERM_CHARS = /[<>{}\[\]\\]/;
 
 function parseErrorMessage(payload) {
   if (!payload) return "";
@@ -33,11 +37,44 @@ function resolveText(data) {
     .join("\n");
 }
 
+function buildKeyterms(words) {
+  if (!Array.isArray(words) || words.length === 0) return [];
+
+  const seen = new Set();
+  const keyterms = [];
+
+  for (const word of words) {
+    if (typeof word !== "string") continue;
+
+    const term = word.trim().replace(/\s+/g, " ");
+    if (!term) continue;
+    if (term.length >= KEYTERM_MAX_CHARS) continue;
+    if (term.split(" ").length > KEYTERM_MAX_WORDS) continue;
+    if (INVALID_KEYTERM_CHARS.test(term)) continue;
+
+    const normalized = term.toLowerCase();
+    if (seen.has(normalized)) continue;
+
+    seen.add(normalized);
+    keyterms.push(term);
+    if (keyterms.length >= KEYTERMS_LIMIT) break;
+  }
+
+  return keyterms;
+}
+
+function appendKeyterms(formData, words) {
+  for (const term of buildKeyterms(words)) {
+    formData.append("keyterms", term);
+  }
+}
+
 async function transcribe({
   apiKey,
   audioBuffer,
   model,
   language,
+  keyterms,
   mimeType = "audio/webm",
   fileName = "audio.webm",
 } = {}) {
@@ -53,6 +90,7 @@ async function transcribe({
   if (language && language !== "auto") {
     formData.append("language_code", language);
   }
+  appendKeyterms(formData, keyterms);
 
   const response = await fetch(ELEVENLABS_STT_URL, {
     method: "POST",
@@ -79,5 +117,7 @@ async function transcribe({
 module.exports = {
   DEFAULT_STT_MODEL,
   ELEVENLABS_STT_URL,
+  buildKeyterms,
+  appendKeyterms,
   transcribe,
 };

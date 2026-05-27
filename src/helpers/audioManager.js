@@ -1553,6 +1553,7 @@ registerProcessor("pcm-streaming-processor", PCMStreamingProcessor);
           apiKey,
           model,
           language,
+          keyterms: this.getCustomDictionaryArray(),
           mimeType,
         });
         const proxyText = result?.text;

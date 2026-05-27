@@ -2526,12 +2526,13 @@ class IPCHandlers {
 
     ipcMain.handle(
       "proxy-elevenlabs-transcription",
-      async (_event, { audioBuffer, apiKey, model, language, mimeType }) => {
+      async (_event, { audioBuffer, apiKey, model, language, keyterms, mimeType }) => {
         return elevenLabs.transcribe({
           apiKey: apiKey || this.environmentManager.getElevenLabsKey(),
           audioBuffer,
           model,
           language,
+          keyterms,
           mimeType,
         });
       }
@@ -3692,6 +3693,7 @@ class IPCHandlers {
             formData.append("tag_audio_events", "false");
             formData.append("timestamps_granularity", "none");
             if (language) formData.append("language_code", language);
+            elevenLabs.appendKeyterms(formData, settings?.customDictionary);
           } else {
             formData.append("model", model);
             if (language) formData.append("language", language);
@@ -6257,7 +6259,7 @@ class IPCHandlers {
 
     ipcMain.handle(
       "transcribe-audio-file-byok",
-      async (event, { filePath, apiKey, baseUrl, model, provider }) => {
+      async (event, { filePath, apiKey, baseUrl, model, provider, keyterms }) => {
         const fs = require("fs");
         const BYOK_FILE_SIZE_LIMIT = 25 * 1024 * 1024; // 25 MB
         try {
@@ -6283,6 +6285,7 @@ class IPCHandlers {
               apiKey,
               audioBuffer,
               model,
+              keyterms,
               mimeType: contentType,
               fileName,
             });

@@ -119,6 +119,7 @@ export default function UploadAudioView({ onNoteCreated, onOpenSettings }: Uploa
     mistralApiKey,
     elevenLabsApiKey,
     customTranscriptionApiKey,
+    customDictionary,
     updateTranscriptionSettings,
   } = useSettings();
 
@@ -380,6 +381,7 @@ export default function UploadAudioView({ onNoteCreated, onOpenSettings }: Uploa
           baseUrl: cloudTranscriptionBaseUrl || "",
           model: cloudTranscriptionModel,
           provider: cloudTranscriptionProvider,
+          keyterms: cloudTranscriptionProvider === "elevenlabs" ? customDictionary : undefined,
         });
       }
 
